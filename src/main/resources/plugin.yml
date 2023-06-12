@@ -1,0 +1,10 @@
+name: ByteWhiteList
+version: '${project.version}'
+main: me.kubister11.bytewhitelist.ByteWhiteList
+api-version: 1.16
+authors: [ Kubister11 ]
+commands:
+  whitelist:
+    aliases:
+      - wl
+      - bytewhitelist
