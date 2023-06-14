@@ -3,6 +3,7 @@ package me.kubister11.bytewhitelist.commands;
 import me.kubister11.bytewhitelist.gui.ListGui;
 import me.kubister11.bytewhitelist.managers.WhiteListManager;
 import me.kubister11.bytewhitelist.storage.files.Config;
+import me.kubister11.bytewhitelist.storage.files.WhiteListData;
 import me.kubister11.bytewhitelist.utils.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -20,7 +21,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     public MainCommand() {
         Bukkit.getPluginCommand("whitelist").setExecutor(this);
     }
-    private static final String correctUse = "/whitelist [on, off, list, add, remove] <player>";
+    private static final String correctUse = "/whitelist [on, off, list, add, remove, reload] <player>";
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("bytewhitelist.admin")) return true;
@@ -45,6 +46,11 @@ public class MainCommand implements CommandExecutor, TabCompleter {
                 String s = WhiteListManager.get().toString();
                 TextUtil.sendMessage(sender, Config.MESSAGES_WHITELIST$LIST.replace("[LIST]", s.substring(1, s.length() - 1)));
                 return true;
+            } else if (args[0].equalsIgnoreCase("reload")) {
+                Config.getConfigFile().reload();
+                WhiteListData.getConfigFile().reload();
+                TextUtil.sendMessage(sender, "&aConfig reloaded!");
+                return true;
             }
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("add")) {
@@ -60,7 +66,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     }
 
 
-    private static final List<String> arguments = List.of("on", "off", "list", "add", "remove");
+    private static final List<String> arguments = List.of("on", "off", "list", "add", "remove", "reload");
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> results = new ArrayList<>();

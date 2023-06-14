@@ -5,6 +5,7 @@ import me.kubister11.bytewhitelist.storage.api.ConfigFile;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Config extends ConfigFile {
@@ -35,11 +36,11 @@ public class Config extends ConfigFile {
     public static String GUI_MAIN_ITEMS_STATUS$OFF_DISPLAY$NAME = "&cWyłączona";
     public static List<String> GUI_MAIN_ITEMS_STATUS$OFF_LORE = new ArrayList<>();
     public static String GUI_MAIN_ITEMS_CHANGE$KICK$MESSAGE_DISPLAY$NAME = "&9Kliknij, aby zmienić wiadomość kicka.";
-    public static List<String> GUI_MAIN_ITEMS_CHANGE$KICK$MESSAGE_LORE = List.of(" ", "&7Aktualna wiadomość:", "[MESSAGE]", " ");
+    public static List<String> GUI_MAIN_ITEMS_CHANGE$KICK$MESSAGE_LORE = Arrays.asList(" ", "&7Aktualna wiadomość:", "[MESSAGE]", " ");
     public static String GUI_MAIN_ITEMS_ADD$PLAYER_DISPLAY$NAME = "&aDodaj Gracza";
     public static List<String> GUI_MAIN_ITEMS_ADD$PLAYER_LORE = new ArrayList<>();
     public static String GUI_MAIN_ITEMS_HEAD_DISPLAY$NAME = "&f[PLAYER]";
-    public static List<String> GUI_MAIN_ITEMS_HEAD_LORE = List.of(" ", "&8>> &7Kliknij aby usunąć z whitelisty!");
+    public static List<String> GUI_MAIN_ITEMS_HEAD_LORE = Arrays.asList(" ", "&8>> &7Kliknij aby usunąć z whitelisty!");
 
 
     public static String GUI_CONFIRM_TITLE = "&7Napewno?";
