@@ -5,19 +5,19 @@ import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
 import me.kubister11.bytewhitelist.ByteWhiteList;
-import me.kubister11.bytewhitelist.enums.ChatInputType;
-import me.kubister11.bytewhitelist.managers.ChatManager;
 import me.kubister11.bytewhitelist.managers.WhiteListManager;
 import me.kubister11.bytewhitelist.storage.files.Config;
 import me.kubister11.bytewhitelist.utils.ItemUtils;
 import me.kubister11.bytewhitelist.utils.TextUtil;
 import me.kubister11.bytewhitelist.utils.Utils;
+import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ListGui implements InventoryProvider {
@@ -71,16 +71,35 @@ public class ListGui implements InventoryProvider {
         kickLore.replaceAll(s -> s.replace("[MESSAGE]", Config.MESSAGES_WHITELIST$KICK));
         contents.set(5, 0, ClickableItem.of(
                 ItemUtils.createIs(Material.PAPER, Config.GUI_MAIN_ITEMS_CHANGE$KICK$MESSAGE_DISPLAY$NAME, kickLore, false), false,
-                e -> {
-                    ChatManager.getEditors().put(player.getUniqueId(), ChatInputType.CHANGE_KICK_MESSAGE);
-                    player.closeInventory();
-                }));
+                e -> new AnvilGUI.Builder()
+                        .title("Wpisz tekst")
+                        .text(" ")
+                        .plugin(ByteWhiteList.getPlugin())
+                        .itemLeft(new ItemStack(Material.PAPER))
+                        .onClick((slot, stateSnapshot) -> {
+                            if (slot != AnvilGUI.Slot.OUTPUT) {
+                                return Collections.emptyList();
+                            }
+
+                            Config.MESSAGES_WHITELIST$KICK = stateSnapshot.getText();
+                            Config.getConfigFile().save();
+                            return List.of(AnvilGUI.ResponseAction.run(() -> open(player, page)));
+                        }).open(player)));
         contents.set(5, 1, ClickableItem.of(
                 ItemUtils.createIs(Material.GREEN_DYE, Config.GUI_MAIN_ITEMS_ADD$PLAYER_DISPLAY$NAME, Config.GUI_MAIN_ITEMS_ADD$PLAYER_LORE, false), false,
-                e -> {
-                    ChatManager.getEditors().put(player.getUniqueId(), ChatInputType.ADD_PLAYER);
-                    player.closeInventory();
-                }));
+                e -> new AnvilGUI.Builder()
+                        .title("Wpisz nick gracza")
+                        .text(" ")
+                        .plugin(ByteWhiteList.getPlugin())
+                        .itemLeft(new ItemStack(Material.PAPER))
+                        .onClick((slot, stateSnapshot) -> {
+                            if (slot != AnvilGUI.Slot.OUTPUT) {
+                                return Collections.emptyList();
+                            }
+
+                            WhiteListManager.add(stateSnapshot.getText(), player);
+                            return List.of(AnvilGUI.ResponseAction.run(() -> open(player, page)));
+                        }).open(player)));
 
         contents.set(5, 7, ClickableItem.of(
                 ItemUtils.createIs(Material.ARROW, "&f<--", false), false,
