@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class TextUtil {
 
-    private static final String pluginPrefix = "&8[&ebyteCraftingDisable&8]";
+    private static final String pluginPrefix = "&8[&ebyteWhiteList&8]";
     public static void sendMessage (CommandSender sender, String text) { sender.sendMessage(fix(text)); }
     public static void sendToConsole (String text) { Bukkit.getLogger().info(fix(pluginPrefix + " " + text)); }
 
